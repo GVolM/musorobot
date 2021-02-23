@@ -7,9 +7,9 @@ Created on Mon Feb  1 20:34:30 2021
 
 from telegram import ReplyKeyboardMarkup, KeyboardButton, ForceReply, Update
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, ConversationHandler, CallbackContext
-import json
+import requests
 
-TOKEN = '****************************'
+TOKEN = '1094931901:AAH5EmyGg-STUNuKvMCfXfd6wEy9VoDNYYk'
 
 location_keyboard = KeyboardButton(text="send_location",  request_location=True)           #creating location button object
 contact_keyboard = KeyboardButton('Share contact', request_contact=True)  #creating contact button object
@@ -17,6 +17,14 @@ custom_keyboard = [[ location_keyboard, contact_keyboard ]] #creating keyboard o
 reply_markup = ReplyKeyboardMarkup(custom_keyboard)  
 
 CHOOSING, COORDINATES, TYPE_JUNK, PHOTO, COMMENT= range(5)
+
+TYPES = {        
+        'Пластик': 0 ,
+         'Биомусор':1,
+        'Строительный': 2,
+        'Смешанный':3,
+        }
+server_url='http://127.0.0.1:8000/api/tickets/'
 def run(updater):
     updater.start_polling()
     updater.idle()   
@@ -36,7 +44,7 @@ def main():
                           MessageHandler(Filters.regex('^комментарий$'), comment_chosen),
                           MessageHandler(Filters.regex('^готово$'), complete)],
                 COORDINATES:[MessageHandler(Filters.location, add_location)],
-                TYPE_JUNK:[MessageHandler(Filters.regex('^(пластик|биомусор|строительный|смешанный)$'), add_junk_type)],
+                TYPE_JUNK:[MessageHandler(Filters.regex('^(Пластик|Биомусор|Строительный|Смешанный)$'), add_junk_type)],
                 PHOTO:[MessageHandler(Filters.photo, add_photo)],
                 COMMENT:[MessageHandler(Filters.text & Filters.reply, add_comment)],
                 },
@@ -46,7 +54,7 @@ def main():
     dp.add_handler(converstion_handler)
     run(mybot)
 reply_keyboard_main=[['Координаты','вид мусора'],['фото','комментарий'],['готово'] ]
-reply_keyboard_type=[['пластик','биомусор'],['строительный','смешанный']]
+reply_keyboard_type=[['Пластик','Биомусор'],['Строительный','Смешанный']]
 
 markup_main=ReplyKeyboardMarkup(reply_keyboard_main, one_time_keyboard=True)
 
@@ -119,16 +127,18 @@ def complete(update: Update, context: CallbackContext) -> None:
         update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['Спасибо!']], one_time_keyboard=True))
         user_id=update.message.from_user.id
         date=update.message.date
-        data={'date':str(date),
-              'user_id':user_id,
+        ticket={
+              'user':user_id,
               'longitude':context.user_data['location'].longitude,
               'latitude':context.user_data['location'].latitude,
               'photo':context.user_data['photo'],
-              'type':context.user_data['type'],
-              'comment':context.user_data['comment']
+              'type':TYPES[context.user_data['type']],
+              'comment':context.user_data['comment'],
+              'created': date
               }
-        with open('data.json', 'a') as fp:
-            json.dump(data, fp,indent=2)
+        r = requests.post(server_url, data = ticket)
+        
+        
     else:
         reply_text='ты что-то от меня скрываешь, попробуй еще раз'
         update.message.reply_text(reply_text, reply_markup=markup_main)
