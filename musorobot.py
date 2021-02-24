@@ -9,7 +9,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton, ForceReply, Update
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater, ConversationHandler, CallbackContext
 import requests
 
-TOKEN = '1094931901:AAH5EmyGg-STUNuKvMCfXfd6wEy9VoDNYYk'
+TOKEN = '***********************'
 
 location_keyboard = KeyboardButton(text="send_location",  request_location=True)           #creating location button object
 contact_keyboard = KeyboardButton('Share contact', request_contact=True)  #creating contact button object
