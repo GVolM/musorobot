@@ -151,7 +151,7 @@ def start(update: Update, context: CallbackContext):
                 
     
 def done(update: Update, context: CallbackContext):
-    reply_text='Вам спсибо!'
+    reply_text='Вам спасибо!'
     update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['/new']], one_time_keyboard=True))
     
 if __name__=='__main__':
