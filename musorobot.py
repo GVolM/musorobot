@@ -56,9 +56,9 @@ def main():
 reply_keyboard_main=[['Координаты','вид мусора'],['фото','комментарий'],['готово'] ]
 reply_keyboard_type=[['Пластик','Биомусор'],['Строительный','Смешанный']]
 
-markup_main=ReplyKeyboardMarkup(reply_keyboard_main, one_time_keyboard=True)
+markup_main=ReplyKeyboardMarkup(reply_keyboard_main, one_time_keyboard=False)
 
-markup_type=ReplyKeyboardMarkup(reply_keyboard_type, one_time_keyboard=True)
+markup_type=ReplyKeyboardMarkup(reply_keyboard_type, one_time_keyboard=False)
 
 def new_spot(update: Update, context: CallbackContext) -> None:
     reply_text='Привет, видимо ты обнаружил мусор, ответь на все вопросы и мы отметим его на нашей карте'
@@ -124,7 +124,7 @@ def add_comment(update: Update, context: CallbackContext) -> None:
 def complete(update: Update, context: CallbackContext) -> None:
     if (context.user_data['comment'])and(context.user_data['location'])and(context.user_data['photo'])and(context.user_data['type']):
         reply_text='Спасибо, ваша заявка принята и вскоре она будет отмечена на нашей карте'
-        update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['Спасибо!']], one_time_keyboard=True))
+        update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['Спасибо!']], one_time_keyboard=False))
         user_id=update.message.from_user.id
         date=update.message.date
         ticket={
@@ -147,12 +147,12 @@ def complete(update: Update, context: CallbackContext) -> None:
     
 def start(update: Update, context: CallbackContext):
     reply_text="Привет, я мусоробот. Я собираю инвормацию о мусоре на просторах нашей страны. Если вы видете мусор пришлите мне геометку, а потом я спрошу вас про колличество мусора. Данные будут обработанны и отображены на карте по ссылке... "
-    update.message.reply_text(reply_text, reply_markup=ReplyKeyboardMarkup([['/new']], one_time_keyboard=True)) 
+    update.message.reply_text(reply_text, reply_markup=ReplyKeyboardMarkup([['/new']], one_time_keyboard=False)) 
                 
     
 def done(update: Update, context: CallbackContext):
     reply_text='Вам спасибо!'
-    update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['/new']], one_time_keyboard=True))
+    update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([['/new']], one_time_keyboard=False))
     
 if __name__=='__main__':
     main()
