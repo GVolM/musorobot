@@ -108,8 +108,8 @@ choose_size_d_keyboard = InlineKeyboardMarkup(choose_size_d_buttons)
 
 
 def add_spot(update: Update, context: CallbackContext) -> str:
-    reply_text='''You probably see some trash, just share with me what you see and I will send it arround. \n
-Choose categories in the menu bellow and follow futher instructions. To check what you have allready sent press "show"            
+    reply_text='''You probably see some trash, just share with me what you see and I will send it around. \n
+Choose categories in the menu below and follow further instructions. To check what you have already sent press "show"            
     
     '''
     #del context.user_data
@@ -136,13 +136,13 @@ def coordinates_chosen(update: Update, context: CallbackContext) -> None:
     return COORDINATES
 
 def type_chosen(update: Update, context: CallbackContext) -> None:
-    reply_text='Can you identify type of the trash?'
+    reply_text='Can you identify the type of the trash?'
     update.callback_query.answer()
     update.callback_query.edit_message_text(text=reply_text, reply_markup=choose_type_keyboard)
     return TYPE_JUNK
 
 def photo_chosen(update: Update, context: CallbackContext) -> None:
-    reply_text='Any photo will be so usefull for me, send me one please :)'
+    reply_text='Any photo will be so useful for me, send me one please :)'
     update.callback_query.answer()
     update.callback_query.edit_message_text(text=reply_text, reply_markup=None)
     return PHOTO
@@ -156,7 +156,7 @@ def comment_chosen(update: Update, context: CallbackContext) -> None:
 def donate_chosen(update: Update, context: CallbackContext) -> None:
     reply_text=''''Great, you can donate me some money and i will give it to someone who will clean it\n
     \n
-How much you can give?'''
+How much can you give?'''
     update.callback_query.answer()
     update.callback_query.edit_message_text(reply_text, reply_markup=choose_size_d_keyboard)
     return DONATE
@@ -175,7 +175,7 @@ def add_junk_type(update: Update, context: CallbackContext) -> str:
     
     
     context.user_data['type']=update.callback_query.data
-    reply_text='''Oo, it will help me a lot to recicle it!\n
+    reply_text='''Oo, it will help me a lot to recycle it!\n
     \n
 Check what is missing using \'show\' button
     '''
@@ -197,7 +197,7 @@ Anything else?'''
 def add_comment(update: Update, context: CallbackContext) -> None:
     comment=update.message.text
     context.user_data['comment']=comment
-    reply_text='''Your comment is really usefull.\n 
+    reply_text='''Your comment is really useful.\n 
     \n
 That\'s all?'''
     
@@ -209,7 +209,7 @@ def complete(update: Update, context: CallbackContext) -> None:
     if (context.user_data['comment'])and(context.user_data['location'])and(context.user_data['photo'])and(context.user_data['type']):
         reply_text='''Cool, I will show it to everyone and, may be, there will be someone who will be able to clean up here %)\n
         \n
-Hope to see you soon whith more information
+Hope to see you soon with more information
         '''
         #update.message.reply_text(reply_text,reply_markup=ReplyKeyboardMarkup([[InlineKeyboardButton(text='Thanks', callback_data=str(END))]], one_time_keyboard=True))
         user_id=update.callback_query.from_user.id
@@ -262,7 +262,7 @@ def show_ticket(update: Update, context: CallbackContext) -> str:
     if (context.user_data['comment'])and(context.user_data['location'])and(context.user_data['photo'])and(context.user_data['type']):
         table.append('Good job, You are ready to commit \:-D)\n')
     else:
-        table.append('It would be realy nice if you will pot crosses in the end of every line. You can do it, belive me ;) \n\n')
+        table.append('It would be really nice if you will pot crosses in the end of every line. You can do it, believe me ;) \n\n')
     for item in context.user_data:
         if context.user_data[item] == None:
             table.append(item+'\n')
