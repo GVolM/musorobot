@@ -220,8 +220,8 @@ Hope to see you soon with more information
               'latitude':context.user_data['location'].latitude,
               'photo':context.user_data['photo'],
               'type':TYPES[context.user_data['type']],
-              'comment':context.user_data['comment'],
               #'donat': context.user_data['donat'],
+              'comment':context.user_data['comment'],
               'created': date
               }
         r = requests.post(server_url+'api/tickets/', data = ticket)
